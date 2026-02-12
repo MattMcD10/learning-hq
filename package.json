@@ -1,0 +1,8 @@
+{
+  "name": "learning-hq",
+  "version": "1.0.0",
+  "description": "Leira & Leiana's Learning HQ - FCPS Study App",
+  "engines": {
+    "node": "18.x"
+  }
+}

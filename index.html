@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leira & Leiana's Learning HQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --leira-primary:#7c3aed;--leira-light:#ede9fe;--leira-dark:#4c1d95;
+  --leiana-primary:#ec4899;--leiana-light:#fce7f3;--leiana-dark:#9d174d;
+  --teacher-primary:#0f766e;--teacher-light:#ccfbf1;--teacher-dark:#134e4a;
+  --bg:#f8f7ff;--card:#ffffff;--text:#1e1b4b;--muted:#6b7280;
+  --radius:18px;--shadow:0 4px 24px rgba(0,0,0,0.08);--shadow-lg:0 8px 40px rgba(0,0,0,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;
+  background-image:radial-gradient(circle at 10% 20%,rgba(124,58,237,.07) 0%,transparent 50%),
+    radial-gradient(circle at 90% 80%,rgba(236,72,153,.07) 0%,transparent 50%);}
+
+/* HEADER */
+header{background:#fff;box-shadow:var(--shadow);padding:0 24px;position:sticky;top:0;z-index:100;}
+.header-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;gap:16px;height:70px;}
+.logo{font-family:'Fredoka One',cursive;font-size:1.5rem;background:linear-gradient(135deg,var(--leira-primary),var(--leiana-primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;}
+.student-tabs{display:flex;gap:7px;flex:1;}
+.student-tab{padding:9px 20px;border-radius:40px;border:none;font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer;transition:all .22s;display:flex;align-items:center;gap:7px;}
+.student-tab.leira{background:var(--leira-light);color:var(--leira-primary);}
+.student-tab.leira.active,.student-tab.leira:hover{background:var(--leira-primary);color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.35);transform:translateY(-1px);}
+.student-tab.leiana{background:var(--leiana-light);color:var(--leiana-primary);}
+.student-tab.leiana.active,.student-tab.leiana:hover{background:var(--leiana-primary);color:#fff;box-shadow:0 4px 16px rgba(236,72,153,.35);transform:translateY(-1px);}
+.student-tab.teacher{background:var(--teacher-light);color:var(--teacher-primary);}
+.student-tab.teacher.active,.student-tab.teacher:hover{background:var(--teacher-primary);color:#fff;box-shadow:0 4px 16px rgba(15,118,110,.35);transform:translateY(-1px);}
+.streak-badge{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:40px;padding:7px 15px;font-weight:800;font-size:.88rem;white-space:nowrap;box-shadow:0 2px 12px rgba(245,158,11,.4);}
+
+/* MAIN */
+.main{max-width:1140px;margin:0 auto;padding:26px 22px;}
+[data-student]{display:none;}
+[data-student].active{display:block;}
+
+/* WELCOME BANNER */
+.welcome-banner{border-radius:var(--radius);padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative;overflow:hidden;}
+.welcome-banner.leira{background:linear-gradient(135deg,var(--leira-primary),#9333ea);color:#fff;}
+.welcome-banner.leiana{background:linear-gradient(135deg,var(--leiana-primary),#f472b6);color:#fff;}
+.welcome-banner.teacher{background:linear-gradient(135deg,var(--teacher-primary),#0d9488);color:#fff;}
+.welcome-banner::after{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);}
+.welcome-banner::before{content:'';position:absolute;right:60px;bottom:-50px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07);}
+.welcome-text h1{font-family:'Fredoka One',cursive;font-size:1.9rem;margin-bottom:3px;}
+.welcome-text p{font-size:.97rem;opacity:.9;font-weight:600;}
+.streak-display{background:rgba(255,255,255,.2);border-radius:14px;padding:14px 22px;text-align:center;backdrop-filter:blur(4px);z-index:1;min-width:115px;}
+.streak-display .streak-num{font-family:'Fredoka One',cursive;font-size:2.4rem;line-height:1;}
+.streak-display .streak-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;opacity:.9;}
+
+/* SECTION TITLE */
+.section-title{font-family:'Fredoka One',cursive;font-size:1.35rem;margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+
+/* TODAY PROGRESS */
+.today-progress{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 20px;margin-bottom:20px;}
+.today-subjects{display:flex;gap:9px;margin-top:10px;flex-wrap:wrap;}
+.today-subject-chip{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:30px;font-size:.81rem;font-weight:700;border:2px solid;cursor:pointer;transition:all .15s;}
+.today-subject-chip.done{border-style:solid;}
+.today-subject-chip.pending{border-style:dashed;opacity:.6;}
+.leira .today-subject-chip{border-color:var(--leira-primary);color:var(--leira-primary);}
+.leira .today-subject-chip.done{background:var(--leira-light);}
+.leiana .today-subject-chip{border-color:var(--leiana-primary);color:var(--leiana-primary);}
+.leiana .today-subject-chip.done{background:var(--leiana-light);}
+
+/* CHALLENGES */
+.challenges-row{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:26px;}
+.challenge-card{background:#fff;border-radius:var(--radius);padding:17px;box-shadow:var(--shadow);border:2px solid transparent;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.challenge-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.challenge-card.leira{border-color:var(--leira-light);}
+.challenge-card.leiana{border-color:var(--leiana-light);}
+.challenge-card.completed{opacity:.6;}
+.challenge-card.completed::after{content:'✓';position:absolute;top:9px;right:11px;width:22px;height:22px;background:#10b981;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;}
+.challenge-icon{font-size:1.7rem;margin-bottom:7px;}
+.challenge-title{font-weight:800;font-size:.88rem;margin-bottom:3px;}
+.challenge-desc{font-size:.76rem;color:var(--muted);line-height:1.4;}
+.challenge-reward{display:inline-flex;align-items:center;gap:3px;margin-top:7px;font-size:.73rem;font-weight:700;padding:3px 8px;border-radius:20px;}
+.challenge-reward.leira{background:var(--leira-light);color:var(--leira-primary);}
+.challenge-reward.leiana{background:var(--leiana-light);color:var(--leiana-primary);}
+
+/* SUBJECTS GRID */
+.subjects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:26px;}
+.subject-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:2px solid transparent;transition:all .22s;}
+.subject-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.subject-header{padding:18px 20px 14px;display:flex;align-items:center;gap:13px;}
+.subject-icon-wrap{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.subject-info h3{font-family:'Fredoka One',cursive;font-size:1.15rem;}
+.subject-info .grade-label{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+/* ROADMAP */
+.roadmap{padding:0 20px 14px;}
+.roadmap-title{font-size:.73rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px;}
+.roadmap-track{display:flex;flex-direction:column;gap:5px;}
+.roadmap-unit{display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:9px;font-size:.8rem;font-weight:600;transition:background .15s;}
+.roadmap-unit:hover{background:#f3f4f6;}
+.unit-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;border:2px solid;}
+.unit-dot.done{background:#10b981;border-color:#10b981;}
+.unit-dot.current{background:#fff;border-width:3px;animation:pulse-dot 1.5s ease-in-out infinite;}
+.unit-dot.locked{background:#e5e7eb;border-color:#e5e7eb;}
+.unit-label{flex:1;}
+.unit-badge{font-size:.67rem;font-weight:700;padding:2px 6px;border-radius:9px;}
+@keyframes pulse-dot{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(124,58,237,.4);}50%{transform:scale(1.1);box-shadow:0 0 0 4px rgba(124,58,237,0);}}
+
+/* SUBJECT PROGRESS */
+.subject-progress{padding:0 20px 13px;}
+.progress-info{display:flex;justify-content:space-between;font-size:.73rem;font-weight:700;margin-bottom:5px;}
+.progress-bar-wrap{height:7px;background:#f3f4f6;border-radius:10px;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:10px;transition:width .5s;}
+
+/* SUBJECT BUTTONS ROW */
+.subject-btns{display:flex;gap:8px;padding:0 20px 18px;}
+.start-btn{flex:1;padding:9px 10px;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .18s;color:#fff;}
+.start-btn:hover{transform:scale(1.03);filter:brightness(1.06);}
+.test-btn{flex:1;padding:9px 10px;border-radius:11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .18s;border:2px solid;background:#fff;}
+.test-btn:hover{transform:scale(1.03);}
+
+/* TROPHIES */
+.trophies-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;}
+.trophies-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:13px;}
+.trophy-item{text-align:center;padding:11px 5px;border-radius:11px;transition:transform .2s;}
+.trophy-item:hover{transform:scale(1.08);}
+.trophy-item .trophy-icon{font-size:1.7rem;}
+.trophy-item .trophy-name{font-size:.66rem;font-weight:700;margin-top:4px;color:var(--muted);}
+.trophy-item.earned .trophy-name{color:var(--text);}
+.trophy-item.locked{opacity:.35;filter:grayscale(1);cursor:not-allowed;}
+
+/* STARS */
+.stars-area{display:flex;gap:3px;margin-top:7px;}
+.star{font-size:1.2rem;opacity:.3;transition:all .3s;}
+.star.earned{opacity:1;transform:scale(1.1);}
+
+/* ===== PRACTICE TEST ===== */
+.test-unit-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.test-unit-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f8f7ff;border-radius:12px;border:1.5px solid #e5e7eb;cursor:pointer;transition:all .18s;}
+.test-unit-row:hover{border-color:#9ca3af;background:#f3f4f6;}
+.test-unit-row .unit-name{flex:1;font-weight:700;font-size:.9rem;}
+.test-unit-score{font-size:.78rem;font-weight:800;padding:3px 10px;border-radius:20px;}
+.test-unit-score.none{background:#f3f4f6;color:var(--muted);}
+.test-unit-score.good{background:#dcfce7;color:#166534;}
+.test-unit-score.ok{background:#fef3c7;color:#92400e;}
+.test-unit-score.poor{background:#fee2e2;color:#991b1b;}
+.test-progress-bar{width:70px;height:6px;background:#e5e7eb;border-radius:10px;overflow:hidden;}
+.test-progress-fill{height:100%;border-radius:10px;}
+
+/* QUESTION MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .22s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:22px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.24);transform:translateY(18px) scale(.97);transition:transform .22s;}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);}
+.modal-header{padding:22px 26px 18px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:13px;position:sticky;top:0;background:#fff;z-index:1;}
+.modal-title{font-family:'Fredoka One',cursive;font-size:1.35rem;}
+.modal-close{margin-left:auto;background:#f3f4f6;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;}
+.modal-close:hover{background:#e5e7eb;}
+.modal-body{padding:22px 26px 26px;}
+
+/* QUESTION UI */
+.xp-bar{display:flex;align-items:center;gap:9px;margin-bottom:16px;}
+.xp-label{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.xp-progress{flex:1;height:7px;background:#f3f4f6;border-radius:10px;overflow:hidden;}
+.xp-fill{height:100%;border-radius:10px;transition:width .4s;}
+.xp-count{font-weight:800;font-size:.8rem;}
+
+.question-area{background:#fafafa;border-radius:15px;padding:20px;margin-bottom:18px;min-height:90px;border:1px solid #f0f0f0;}
+.question-text{font-size:1.02rem;font-weight:700;line-height:1.6;white-space:pre-wrap;}
+.question-num{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:7px;}
+
+.ai-loading{display:flex;align-items:center;gap:9px;color:var(--muted);font-style:italic;font-size:.9rem;}
+.loading-dots span{display:inline-block;width:6px;height:6px;background:var(--muted);border-radius:50%;animation:bounce-dot 1.2s ease-in-out infinite;}
+.loading-dots span:nth-child(2){animation-delay:.15s;}
+.loading-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce-dot{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-7px);}}
+
+.answer-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px;}
+.option-btn{padding:11px 15px;border-radius:11px;border:2px solid #e5e7eb;background:#fff;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .14s;text-align:left;line-height:1.4;}
+.option-btn:hover:not(:disabled){border-color:#9ca3af;background:#f9fafb;}
+.option-btn.correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.option-btn.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.option-btn:disabled{cursor:default;}
+.text-answer{width:100%;padding:11px 15px;border-radius:11px;border:2px solid #e5e7eb;font-family:'Nunito',sans-serif;font-size:.97rem;font-weight:600;resize:vertical;min-height:85px;outline:none;transition:border-color .15s;margin-top:11px;}
+.text-answer:focus{border-color:var(--leira-primary);}
+.feedback-box{border-radius:13px;padding:15px 17px;margin-top:13px;font-weight:600;font-size:.9rem;line-height:1.6;display:none;white-space:pre-wrap;}
+.feedback-box.correct-fb{background:#d1fae5;color:#065f46;border-left:4px solid #10b981;}
+.feedback-box.wrong-fb{background:#fef3c7;color:#92400e;border-left:4px solid #f59e0b;}
+.modal-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}
+.btn{padding:10px 22px;border-radius:11px;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .14s;display:flex;align-items:center;gap:6px;}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.06);}
+.btn:active{transform:translateY(0);}
+.btn-primary{color:#fff;}
+.btn-secondary{background:#f3f4f6;color:var(--text);}
+.btn-secondary:hover{background:#e5e7eb;filter:none;}
+
+/* TEST SCORE PANEL */
+.test-score-panel{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;border-radius:16px;padding:22px;margin-bottom:18px;text-align:center;}
+.test-score-big{font-family:'Fredoka One',cursive;font-size:3rem;line-height:1;}
+.test-score-label{font-size:.82rem;opacity:.8;font-weight:700;margin-top:3px;}
+.test-score-breakdown{display:flex;justify-content:center;gap:20px;margin-top:14px;}
+.score-stat{text-align:center;}
+.score-stat .val{font-family:'Fredoka One',cursive;font-size:1.6rem;}
+.score-stat .lbl{font-size:.7rem;opacity:.75;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ===== TEACHER DASHBOARD ===== */
+.teacher-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px;}
+.metric-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;}
+.metric-val{font-family:'Fredoka One',cursive;font-size:2.2rem;line-height:1;}
+.metric-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:3px;}
+.metric-sub{font-size:.8rem;font-weight:600;margin-top:5px;}
+
+.teacher-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:20px;}
+
+/* STUDENT TOGGLE in teacher view */
+.student-toggle{display:flex;gap:8px;margin-bottom:20px;}
+.toggle-btn{padding:8px 20px;border-radius:30px;border:2px solid #e5e7eb;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;transition:all .18s;background:#fff;}
+.toggle-btn.active-leira{background:var(--leira-light);color:var(--leira-primary);border-color:var(--leira-primary);}
+.toggle-btn.active-leiana{background:var(--leiana-light);color:var(--leiana-primary);border-color:var(--leiana-primary);}
+
+/* ACCURACY TABLE */
+.accuracy-table{width:100%;border-collapse:collapse;font-size:.87rem;}
+.accuracy-table th{text-align:left;padding:9px 12px;font-size:.73rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:2px solid #f3f4f6;}
+.accuracy-table td{padding:10px 12px;border-bottom:1px solid #f9fafb;vertical-align:middle;}
+.accuracy-table tr:last-child td{border-bottom:none;}
+.accuracy-table tr:hover td{background:#fafafa;}
+.acc-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.74rem;font-weight:800;}
+.acc-pill.high{background:#d1fae5;color:#065f46;}
+.acc-pill.mid{background:#fef3c7;color:#92400e;}
+.acc-pill.low{background:#fee2e2;color:#991b1b;}
+.acc-pill.none{background:#f3f4f6;color:var(--muted);}
+
+/* MINI BAR */
+.mini-bar{display:flex;gap:2px;align-items:flex-end;height:28px;}
+.mini-bar-seg{width:8px;border-radius:3px 3px 0 0;transition:height .3s;}
+
+/* QUESTION LOG TABLE */
+.q-log-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+.q-log-table th{text-align:left;padding:8px 10px;font-size:.71rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-bottom:2px solid #f3f4f6;}
+.q-log-table td{padding:9px 10px;border-bottom:1px solid #f9fafb;vertical-align:top;}
+.q-log-table tr:last-child td{border-bottom:none;}
+.q-log-table tr:hover td{background:#fafafa;}
+.q-result-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;display:inline-block;margin-right:4px;}
+.q-result-dot.correct{background:#10b981;}
+.q-result-dot.wrong{background:#ef4444;}
+.q-question-text{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;}
+.q-subject-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:800;}
+.clear-log-btn{background:#fee2e2;color:#991b1b;border:none;border-radius:8px;padding:5px 12px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;transition:background .15s;}
+.clear-log-btn:hover{background:#fecaca;}
+
+/* HEATMAP */
+.heatmap-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px;}
+.heatmap-day{aspect-ratio:1;border-radius:4px;background:#f3f4f6;cursor:default;transition:transform .15s;}
+.heatmap-day:hover{transform:scale(1.2);}
+.heatmap-day.d1{background:#a7f3d0;}
+.heatmap-day.d2{background:#6ee7b7;}
+.heatmap-day.d3{background:#34d399;}
+.heatmap-day.d4{background:#10b981;}
+.heatmap-day.d5{background:#059669;}
+.heatmap-week-label{font-size:.66rem;color:var(--muted);font-weight:700;text-align:center;padding:3px 0;}
+
+/* WRONG QUESTIONS REVIEW */
+.wrong-q-card{background:#fff7f7;border:1.5px solid #fecaca;border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+.wrong-q-card .wq-subject{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;}
+.wrong-q-card .wq-question{font-weight:700;font-size:.9rem;margin-bottom:6px;line-height:1.5;}
+.wrong-q-card .wq-given{font-size:.82rem;color:#991b1b;}
+.wrong-q-card .wq-correct{font-size:.82rem;color:#065f46;}
+
+/* CELEBRATE */
+@keyframes celebrate{0%,100%{transform:scale(1) rotate(0deg);}25%{transform:scale(1.2) rotate(-5deg);}50%{transform:scale(1.3) rotate(5deg);}75%{transform:scale(1.15) rotate(-3deg);}}
+.celebrate{animation:celebrate .6s ease;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:10px;}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .subjects-grid,.teacher-grid{grid-template-columns:1fr;}
+  .challenges-row{grid-template-columns:1fr;}
+  .header-inner{flex-wrap:wrap;height:auto;padding:11px 0;gap:9px;}
+  .trophies-grid{grid-template-columns:repeat(4,1fr);}
+  .answer-options{grid-template-columns:1fr;}
+  .welcome-banner{flex-direction:column;}
+}
+
+/* ===== SITE LOCK SCREEN ===== */
+#site-lock{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#4c1d95 70%,#9d174d 100%);transition:opacity .4s;}
+#site-lock.fade-out{opacity:0;pointer-events:none;}
+#site-lock.hidden{display:none;}
+.lock-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.lock-star{position:absolute;font-size:1.2rem;opacity:0;animation:twinkle 3s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.6);}50%{opacity:.25;transform:scale(1);}}
+.lock-card{background:#fff;border-radius:28px;width:100%;max-width:400px;box-shadow:0 30px 80px rgba(0,0,0,.5);
+  overflow:hidden;position:relative;animation:card-in .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes card-in{from{transform:translateY(30px) scale(.94);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}
+
+/* WHO panel */
+.lock-who{padding:32px 28px 26px;text-align:center;}
+.lock-logo{font-family:'Fredoka One',cursive;font-size:1.75rem;background:linear-gradient(135deg,var(--leira-primary),var(--leiana-primary));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:3px;}
+.lock-tagline{font-size:.84rem;color:var(--muted);font-weight:700;margin-bottom:26px;}
+.lock-who-title{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--text);margin-bottom:13px;}
+.lock-who-btns{display:flex;flex-direction:column;gap:9px;}
+.lock-who-btn{padding:14px 18px;border-radius:14px;border:2.5px solid;font-family:'Nunito',sans-serif;font-weight:800;font-size:.97rem;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:11px;text-align:left;}
+.lock-who-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12);}
+.lock-who-btn.leira{border-color:var(--leira-primary);color:var(--leira-primary);background:var(--leira-light);}
+.lock-who-btn.leira:hover{background:var(--leira-primary);color:#fff;}
+.lock-who-btn.leiana{border-color:var(--leiana-primary);color:var(--leiana-primary);background:var(--leiana-light);}
+.lock-who-btn.leiana:hover{background:var(--leiana-primary);color:#fff;}
+.lock-who-btn.parent{border-color:#e5e7eb;color:var(--muted);background:#f9fafb;font-size:.85rem;}
+.lock-who-btn.parent:hover{border-color:var(--teacher-primary);color:var(--teacher-primary);background:var(--teacher-light);}
+.who-icon{font-size:1.5rem;flex-shrink:0;}
+.who-name{display:block;font-family:'Fredoka One',cursive;font-size:1rem;}
+.who-sub{display:block;font-size:.71rem;font-weight:700;opacity:.65;margin-top:1px;}
+
+/* PIN numpad panel */
+.lock-pin{padding:26px 28px 28px;display:none;}
+.lock-pin.visible{display:block;}
+.lock-back{background:none;border:none;cursor:pointer;font-size:.8rem;font-weight:800;color:var(--muted);
+  display:flex;align-items:center;gap:4px;margin-bottom:18px;transition:color .15s;padding:0;font-family:'Nunito',sans-serif;}
+.lock-back:hover{color:var(--text);}
+.lock-pin-top{text-align:center;margin-bottom:20px;}
+.lock-pin-avatar{font-size:2.6rem;margin-bottom:6px;}
+.lock-pin-name{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:3px;}
+.lock-pin-hint{font-size:.8rem;color:var(--muted);font-weight:600;}
+.lock-dots{display:flex;gap:14px;justify-content:center;margin-bottom:20px;}
+.lock-dot{width:15px;height:15px;border-radius:50%;border:2.5px solid #d1d5db;background:transparent;transition:all .18s;}
+.lock-dot.filled{transform:scale(1.2);}
+.lock-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:240px;margin:0 auto 12px;}
+.lock-key{padding:14px 10px;border-radius:13px;border:2px solid #e5e7eb;background:#fff;font-family:'Fredoka One',cursive;
+  font-size:1.35rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;user-select:none;}
+.lock-key:hover{background:#f3f4f6;border-color:#9ca3af;transform:scale(1.05);}
+.lock-key:active{transform:scale(.93);background:#e5e7eb;}
+.lock-key.del{font-size:.9rem;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:800;}
+.lock-key.empty{border-color:transparent;background:transparent;cursor:default;pointer-events:none;}
+.lock-shake{animation:lock-shake .38s ease;}
+@keyframes lock-shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-7px);}40%{transform:translateX(7px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
+.lock-error-msg{text-align:center;color:#dc2626;font-size:.8rem;font-weight:800;min-height:16px;}
+
+/* PIN MODAL (parent dashboard re-auth from within app) */
+.pin-overlay{position:fixed;inset:0;background:rgba(15,118,110,.85);z-index:400;align-items:center;justify-content:center;padding:20px;display:none;}
+.pin-overlay.open{display:flex;}
+.pin-box{background:#fff;border-radius:22px;padding:32px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.pin-box h2{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--teacher-primary);margin-bottom:8px;}
+.pin-box p{font-size:.88rem;color:var(--muted);margin-bottom:22px;font-weight:600;}
+.pin-input{display:flex;gap:10px;justify-content:center;margin-bottom:22px;}
+.pin-digit{width:50px;height:60px;border-radius:12px;border:2px solid #e5e7eb;font-family:'Fredoka One',cursive;font-size:1.6rem;text-align:center;outline:none;transition:border-color .15s;}
+.pin-digit:focus{border-color:var(--teacher-primary);}
+.pin-error{color:#dc2626;font-size:.82rem;font-weight:700;margin-bottom:10px;min-height:18px;}
+</style>
+</head>
+<body>
+
+<!-- ===== SITE LOCK SCREEN ===== -->
+<div id="site-lock">
+  <div class="lock-stars" id="lock-stars"></div>
+  <div class="lock-card">
+    <div class="lock-who" id="lock-who">
+      <div class="lock-logo">🌟 Learning HQ</div>
+      <div class="lock-tagline">Leira &amp; Leiana's FCPS Study App</div>
+      <div class="lock-who-title">Who's studying today?</div>
+      <div class="lock-who-btns">
+        <button class="lock-who-btn leira" onclick="lockSelectUser('leira')">
+          <span class="who-icon">👩‍🎓</span>
+          <span><span class="who-name">Leira</span><span class="who-sub">4th Grade · enter your PIN</span></span>
+        </button>
+        <button class="lock-who-btn leiana" onclick="lockSelectUser('leiana')">
+          <span class="who-icon">🌸</span>
+          <span><span class="who-name">Leiana</span><span class="who-sub">1st Grade · enter your PIN</span></span>
+        </button>
+        <button class="lock-who-btn parent" onclick="lockSelectUser('parent')">
+          <span class="who-icon">👩‍🏫</span>
+          <span><span class="who-name">Parent / Teacher</span><span class="who-sub">PIN protected dashboard</span></span>
+        </button>
+      </div>
+    </div>
+    <div class="lock-pin" id="lock-pin">
+      <button class="lock-back" onclick="lockBack()">← Back</button>
+      <div class="lock-pin-top">
+        <div class="lock-pin-avatar" id="lock-pin-avatar">👩‍🎓</div>
+        <div class="lock-pin-name" id="lock-pin-name">Leira</div>
+        <div class="lock-pin-hint" id="lock-pin-hint">Enter your 4-digit PIN</div>
+      </div>
+      <div class="lock-dots" id="lock-dots">
+        <div class="lock-dot" id="ld0"></div>
+        <div class="lock-dot" id="ld1"></div>
+        <div class="lock-dot" id="ld2"></div>
+        <div class="lock-dot" id="ld3"></div>
+      </div>
+      <div class="lock-numpad">
+        <button class="lock-key" onclick="lockKey('1')">1</button>
+        <button class="lock-key" onclick="lockKey('2')">2</button>
+        <button class="lock-key" onclick="lockKey('3')">3</button>
+        <button class="lock-key" onclick="lockKey('4')">4</button>
+        <button class="lock-key" onclick="lockKey('5')">5</button>
+        <button class="lock-key" onclick="lockKey('6')">6</button>
+        <button class="lock-key" onclick="lockKey('7')">7</button>
+        <button class="lock-key" onclick="lockKey('8')">8</button>
+        <button class="lock-key" onclick="lockKey('9')">9</button>
+        <button class="lock-key empty"></button>
+        <button class="lock-key" onclick="lockKey('0')">0</button>
+        <button class="lock-key del" onclick="lockDel()">⌫</button>
+      </div>
+      <div class="lock-error-msg" id="lock-error"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">🌟 Learning HQ</div>
+    <div class="student-tabs">
+      <button class="student-tab leira active" onclick="switchStudent('leira')">
+        👩‍🎓 Leira <small style="font-family:Nunito;font-weight:700;font-size:.7rem;opacity:.8">4th</small>
+      </button>
+      <button class="student-tab leiana" onclick="switchStudent('leiana')">
+        🌸 Leiana <small style="font-family:Nunito;font-weight:700;font-size:.7rem;opacity:.8">1st</small>
+      </button>
+      <button class="student-tab teacher" onclick="openTeacherPin()">
+        👩‍🏫 Parent View
+      </button>
+    </div>
+    <div class="streak-badge">🔥 <span id="header-streak-num">0</span> day streak</div>
+  </div>
+</header>
+
+<!-- LEIRA -->
+<div data-student="leira" class="active">
+  <div class="main">
+    <div class="welcome-banner leira">
+      <div class="welcome-text">
+        <h1>Hey Leira! 👋</h1>
+        <p>4th Grade · FCPS · Virginia SOL Ready</p>
+        <div class="stars-area" id="leira-stars"></div>
+      </div>
+      <div class="streak-display">
+        <div class="streak-num" id="leira-streak-num">0</div>
+        <div class="streak-label">🔥 Day Streak</div>
+      </div>
+    </div>
+    <div class="today-progress leira">
+      <div class="section-title" style="font-size:.97rem;margin-bottom:0">📋 Today's Progress</div>
+      <div class="today-subjects" id="leira-today-subjects"></div>
+    </div>
+    <div class="section-title">⚡ Today's Mini Challenges</div>
+    <div class="challenges-row" id="leira-challenges"></div>
+    <div class="section-title">📚 Your Subjects</div>
+    <div class="subjects-grid" id="leira-subjects"></div>
+    <div class="trophies-section" style="margin-top:6px">
+      <div class="section-title">🏆 Trophy Case</div>
+      <div class="trophies-grid" id="leira-trophies"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEIANA -->
+<div data-student="leiana">
+  <div class="main">
+    <div class="welcome-banner leiana">
+      <div class="welcome-text">
+        <h1>Hey Leiana! 🌸</h1>
+        <p>1st Grade · FCPS · Growing Reader & Mathematician!</p>
+        <div class="stars-area" id="leiana-stars"></div>
+      </div>
+      <div class="streak-display">
+        <div class="streak-num" id="leiana-streak-num">0</div>
+        <div class="streak-label">🔥 Day Streak</div>
+      </div>
+    </div>
+    <div class="today-progress leiana">
+      <div class="section-title" style="font-size:.97rem;margin-bottom:0">📋 Today's Progress</div>
+      <div class="today-subjects" id="leiana-today-subjects"></div>
+    </div>
+    <div class="section-title">⚡ Today's Mini Challenges</div>
+    <div class="challenges-row" id="leiana-challenges"></div>
+    <div class="section-title">📚 Your Subjects</div>
+    <div class="subjects-grid" id="leiana-subjects"></div>
+    <div class="trophies-section" style="margin-top:6px">
+      <div class="section-title">🏆 Trophy Case</div>
+      <div class="trophies-grid" id="leiana-trophies"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER -->
+<div data-student="teacher">
+  <div class="main">
+    <div class="welcome-banner teacher">
+      <div class="welcome-text">
+        <h1>👩‍🏫 Parent Dashboard</h1>
+        <p>Track progress, accuracy & weak areas across all subjects</p>
+      </div>
+      <div style="z-index:1">
+        <button onclick="clearAllData()" style="background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);color:#fff;padding:10px 18px;border-radius:12px;font-family:Nunito;font-weight:800;cursor:pointer;font-size:.85rem;">🗑️ Reset All Data</button>
+      </div>
+    </div>
+
+    <!-- Student selector -->
+    <div class="student-toggle">
+      <button class="toggle-btn active-leira" id="teacher-toggle-leira" onclick="teacherView('leira')">👩‍🎓 Leira (4th Grade)</button>
+      <button class="toggle-btn" id="teacher-toggle-leiana" onclick="teacherView('leiana')">🌸 Leiana (1st Grade)</button>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="teacher-grid" id="teacher-metrics"></div>
+
+    <!-- Subject accuracy table -->
+    <div class="teacher-section">
+      <div class="section-title" style="font-size:1.1rem">📊 Subject Accuracy</div>
+      <table class="accuracy-table" id="teacher-accuracy-table"></table>
+    </div>
+
+    <!-- Wrong questions review -->
+    <div class="teacher-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div class="section-title" style="font-size:1.1rem;margin-bottom:0">❌ Questions Answered Wrong</div>
+        <button class="clear-log-btn" onclick="clearWrongLog()">Clear Log</button>
+      </div>
+      <div id="teacher-wrong-list"></div>
+    </div>
+
+    <!-- Full question log -->
+    <div class="teacher-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div class="section-title" style="font-size:1.1rem;margin-bottom:0">📋 Full Question Log</div>
+        <button class="clear-log-btn" onclick="clearFullLog()">Clear Log</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="q-log-table" id="teacher-log-table"></table>
+      </div>
+    </div>
+
+    <!-- Activity heatmap -->
+    <div class="teacher-section">
+      <div class="section-title" style="font-size:1.1rem">📅 Activity (Last 28 Days)</div>
+      <div class="heatmap-grid" id="teacher-heatmap"></div>
+      <div style="display:flex;gap:6px;align-items:center;margin-top:8px;font-size:.72rem;color:var(--muted)">
+        <span>Less</span>
+        <div style="width:12px;height:12px;border-radius:3px;background:#f3f4f6;border:1px solid #e5e7eb"></div>
+        <div style="width:12px;height:12px;border-radius:3px;background:#a7f3d0"></div>
+        <div style="width:12px;height:12px;border-radius:3px;background:#34d399"></div>
+        <div style="width:12px;height:12px;border-radius:3px;background:#059669"></div>
+        <span>More</span>
+      </div>
+    </div>
+    <!-- PIN Manager -->
+    <div class="teacher-section">
+      <div class="section-title" style="font-size:1.1rem">🔐 Manage PINs</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px" id="pin-manager"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTIVITY MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div id="modal-icon" style="font-size:1.7rem"></div>
+      <div>
+        <div class="modal-title" id="modal-title"></div>
+        <div style="font-size:.76rem;color:var(--muted);font-weight:700" id="modal-subtitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Mode tabs inside modal -->
+      <div id="modal-mode-area"></div>
+      <!-- Unit selector (for test) -->
+      <div id="modal-unit-selector" style="display:none"></div>
+      <!-- XP bar (practice only) -->
+      <div class="xp-bar" id="modal-xp-bar">
+        <span class="xp-label">XP</span>
+        <div class="xp-progress"><div class="xp-fill" id="modal-xp-fill" style="width:0%"></div></div>
+        <span class="xp-count" id="modal-xp-count">0 XP</span>
+      </div>
+      <!-- Test progress -->
+      <div id="test-progress-area" style="display:none;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:800;color:var(--muted);margin-bottom:5px">
+          <span id="test-q-counter">Question 1 of 5</span>
+          <span id="test-score-running">✅ 0 correct</span>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="test-progress-bar" style="width:0%"></div></div>
+      </div>
+      <div class="question-area" id="question-area">
+        <div class="ai-loading"><span>Getting your question ready</span><div class="loading-dots"><span></span><span></span><span></span></div></div>
+      </div>
+      <div class="answer-area" id="answer-area"></div>
+      <div class="feedback-box" id="feedback-box"></div>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="pin-overlay" id="pin-overlay">
+  <div class="pin-box">
+    <div style="font-size:2.5rem;margin-bottom:8px">🔒</div>
+    <h2>Parent View</h2>
+    <p>Enter your 4-digit PIN to access the dashboard.<br>Default PIN: <strong>1234</strong></p>
+    <div class="pin-input">
+      <input class="pin-digit" type="password" maxlength="1" id="pin0" oninput="pinInput(0)" onkeydown="pinKey(event,0)">
+      <input class="pin-digit" type="password" maxlength="1" id="pin1" oninput="pinInput(1)" onkeydown="pinKey(event,1)">
+      <input class="pin-digit" type="password" maxlength="1" id="pin2" oninput="pinInput(2)" onkeydown="pinKey(event,2)">
+      <input class="pin-digit" type="password" maxlength="1" id="pin3" oninput="pinInput(3)" onkeydown="pinKey(event,3)">
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <button class="btn btn-secondary" onclick="closePinModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+// =================== STATE ===================
+const STORAGE_KEY = 'learning_hq_v4';
+const PIN = '1234';
+const today = new Date().toDateString();
+
+function loadState() {
+  try { const r = localStorage.getItem(STORAGE_KEY); if(r) return JSON.parse(r); } catch(e){}
+  return null;
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+
+const defaultStudent = () => ({
+  streak:0, lastActive:null, xp:0, todayDone:[],
+  unitProgress:{math:0,reading:0,writing:0,spelling:0},
+  trophies:[],
+  subjectStats:{
+    math:{correct:0,wrong:0},
+    reading:{correct:0,wrong:0},
+    writing:{correct:0,wrong:0},
+    spelling:{correct:0,wrong:0}
+  },
+  unitStats:{}, // unitId -> {correct,wrong}
+  questionLog:[], // [{ts,student,subject,unitId,question,correct,chosen,rightAnswer}]
+  activityDays:{} // dateString -> count
+});
+
+const saved = loadState();
+let state = {
+  currentStudent:'leira',
+  teacherViewStudent:'leira',
+  leira: saved?.leira ? {...defaultStudent(),...saved.leira, subjectStats:{...defaultStudent().subjectStats,...(saved.leira.subjectStats||{})}, unitStats:saved.leira.unitStats||{}, questionLog:saved.leira.questionLog||[], activityDays:saved.leira.activityDays||{}} : defaultStudent(),
+  leiana: saved?.leiana ? {...defaultStudent(),...saved.leiana, subjectStats:{...defaultStudent().subjectStats,...(saved.leiana.subjectStats||{})}, unitStats:saved.leiana.unitStats||{}, questionLog:saved.leiana.questionLog||[], activityDays:saved.leiana.activityDays||{}} : defaultStudent()
+};
+
+// =================== CURRICULUM ===================
+const curriculum = {
+  leira:{
+    math:{icon:'🔢',color:'#7c3aed',light:'#ede9fe',label:'Math',grade:'4th Grade',units:[
+      {id:'place-value',name:'Place Value & 9-Digit Numbers',quarter:'Q1',done:true},
+      {id:'add-sub',name:'Addition & Subtraction Strategies',quarter:'Q1',done:true},
+      {id:'multiply',name:'Multiplication (up to 10×10)',quarter:'Q1',current:true},
+      {id:'divide',name:'Division with Remainders',quarter:'Q2'},
+      {id:'fractions',name:'Fractions & Equivalence',quarter:'Q2'},
+      {id:'decimals',name:'Decimals & Place Value',quarter:'Q3'},
+      {id:'geometry',name:'Geometry: Angles & Lines',quarter:'Q3'},
+      {id:'measurement',name:'Measurement & Data',quarter:'Q4'},
+      {id:'algebra',name:'Patterns & Algebraic Thinking',quarter:'Q4'}
+    ]},
+    reading:{icon:'📖',color:'#0891b2',light:'#e0f2fe',label:'Reading',grade:'4th Grade',units:[
+      {id:'community',name:'Community of Readers (Routines)',quarter:'Q1',done:true},
+      {id:'nature',name:'Nature & Informational Texts',quarter:'Q1',done:true},
+      {id:'nonfiction',name:'Nonfiction: Evidence & Summary',quarter:'Q2',current:true},
+      {id:'narrative',name:'Narratives & Character Analysis',quarter:'Q2'},
+      {id:'opinion',name:"Opinion Texts & Author's Purpose",quarter:'Q3'},
+      {id:'history',name:'Historical Fiction & Perspective',quarter:'Q3'},
+      {id:'compare',name:'Compare Texts on Same Topic',quarter:'Q4'},
+      {id:'drama',name:'Drama & Genre Study',quarter:'Q4'}
+    ]},
+    writing:{icon:'✍️',color:'#16a34a',light:'#dcfce7',label:'Writing',grade:'4th Grade',units:[
+      {id:'narrative-w',name:'Personal Narratives',quarter:'Q1',done:true},
+      {id:'paragraphs',name:'Related Paragraph Writing',quarter:'Q1',done:true},
+      {id:'opinion',name:'Opinion Essays with Evidence',quarter:'Q2',current:true},
+      {id:'informational',name:'Informational Reports',quarter:'Q2'},
+      {id:'research',name:'Research Process Writing',quarter:'Q3'},
+      {id:'style',name:'Style, Voice & Word Choice',quarter:'Q3'},
+      {id:'revision',name:'Revision & Self-Editing',quarter:'Q4'}
+    ]},
+    spelling:{icon:'🔤',color:'#dc2626',light:'#fee2e2',label:'Spelling',grade:'4th Grade',units:[
+      {id:'soft-cg',name:'Hard/Soft C & G Sounds',quarter:'Q1',done:true},
+      {id:'r-control',name:'R-Controlled Vowels (ar, or, er)',quarter:'Q1',done:true},
+      {id:'ou-oi',name:'Diphthongs /ou/ and /oi/',quarter:'Q2',current:true},
+      {id:'prefixes',name:'Prefixes: trans-, pro-, sub-, super-',quarter:'Q2'},
+      {id:'homophones',name:'Homophones & Commonly Confused',quarter:'Q2'},
+      {id:'neg-prefix',name:'Negative Prefixes: de-, un-, in-',quarter:'Q3'},
+      {id:'roots',name:'Greek/Latin Roots: geo-, archae-',quarter:'Q3'},
+      {id:'vowel-alt',name:'Variant Vowel /ô/ Patterns',quarter:'Q4'}
+    ]}
+  },
+  leiana:{
+    math:{icon:'🔢',color:'#ec4899',light:'#fce7f3',label:'Math',grade:'1st Grade',units:[
+      {id:'sort-count',name:'Sorting, Counting & Data',quarter:'Q1',done:true},
+      {id:'add-20',name:'Addition to 20',quarter:'Q1',done:true},
+      {id:'sub-20',name:'Subtraction from 20',quarter:'Q1',current:true},
+      {id:'place-value',name:'Place Value: Tens & Ones',quarter:'Q2'},
+      {id:'shapes',name:'Shapes: Triangles, Squares, Circles',quarter:'Q2'},
+      {id:'fractions',name:'Intro to Fractions (Halves, Thirds)',quarter:'Q3'},
+      {id:'money',name:'Coins & Money',quarter:'Q3'},
+      {id:'time',name:'Telling Time to the Hour & Half',quarter:'Q4'},
+      {id:'measurement',name:'Measurement & Weight',quarter:'Q4'}
+    ]},
+    reading:{icon:'📖',color:'#0891b2',light:'#e0f2fe',label:'Reading',grade:'1st Grade',units:[
+      {id:'community',name:'Building Reading Routines',quarter:'Q1',done:true},
+      {id:'life-cycles',name:'Life Cycles & Animals Growing',quarter:'Q1',done:true},
+      {id:'technology',name:'People & Technology',quarter:'Q2',current:true},
+      {id:'teamwork',name:'Teamwork & Problem Solving',quarter:'Q2'},
+      {id:'char-change',name:'Characters Who Change & Grow',quarter:'Q3'},
+      {id:'earth',name:'Earth & Seasons (Nonfiction)',quarter:'Q3'},
+      {id:'community2',name:'Our Community (Social Studies)',quarter:'Q4'},
+      {id:'poetry',name:'Poetry & Rhyme',quarter:'Q4'}
+    ]},
+    writing:{icon:'✍️',color:'#16a34a',light:'#dcfce7',label:'Writing',grade:'1st Grade',units:[
+      {id:'label-draw',name:'Drawing & Labeling Pictures',quarter:'Q1',done:true},
+      {id:'sentences',name:'Writing Simple Sentences',quarter:'Q1',done:true},
+      {id:'sequence',name:'Sequencing Stories (First/Then/Last)',quarter:'Q2',current:true},
+      {id:'narrative-w',name:'Personal Narratives',quarter:'Q2'},
+      {id:'inform',name:'Informational Writing (Facts)',quarter:'Q3'},
+      {id:'opinion',name:'Opinion Writing (I think...because)',quarter:'Q3'},
+      {id:'revise',name:'Revising & Adding Details',quarter:'Q4'}
+    ]},
+    spelling:{icon:'🔤',color:'#dc2626',light:'#fee2e2',label:'Spelling',grade:'1st Grade',units:[
+      {id:'short-vowels',name:'Short Vowel Sounds (CVC words)',quarter:'Q1',done:true},
+      {id:'digraphs',name:'Consonant Digraphs (ch, sh, th)',quarter:'Q1',done:true},
+      {id:'long-a-o',name:'Long A & O (final-e rule)',quarter:'Q2',current:true},
+      {id:'long-ie',name:'Long I, U, E (final-e rule)',quarter:'Q2'},
+      {id:'vowel-teams',name:'Vowel Teams (ai, oa, ee)',quarter:'Q3'},
+      {id:'blends',name:'Consonant Blends (bl, cr, st)',quarter:'Q3'},
+      {id:'inflect',name:'Inflectional Endings (-ing, -ed)',quarter:'Q4'},
+      {id:'sight-words',name:'High-Frequency Sight Words',quarter:'Q4'}
+    ]}
+  }
+};
+
+const challenges = {
+  leira:[
+    {id:'c1',icon:'⚡',title:'5-Min Math Blitz',desc:'Answer 5 multiplication questions!',reward:'+30 XP',subject:'math'},
+    {id:'c2',icon:'📝',title:'Spelling Superstar',desc:'Spell 5 prefix words correctly',reward:'+25 XP',subject:'spelling'},
+    {id:'c3',icon:'📚',title:'Reading Detective',desc:'Answer a comprehension question',reward:'+35 XP',subject:'reading'}
+  ],
+  leiana:[
+    {id:'c1',icon:'🌟',title:'Counting Champion',desc:'Add & subtract 5 problems!',reward:'+25 XP',subject:'math'},
+    {id:'c2',icon:'🔤',title:'Word Builder',desc:'Sound out 4 long-A magic-E words',reward:'+20 XP',subject:'spelling'},
+    {id:'c3',icon:'🌸',title:'Story Reteller',desc:'Read a passage and answer what happened',reward:'+30 XP',subject:'reading'}
+  ]
+};
+
+const trophyDefs=[
+  {id:'t1',icon:'🥇',name:'1st Star!',condition:s=>s.xp>=50},
+  {id:'t2',icon:'🔥',name:'3-Day Streak',condition:s=>s.streak>=3},
+  {id:'t3',icon:'🎯',name:'All 4 Today',condition:s=>s.todayDone.length>=4},
+  {id:'t4',icon:'📚',name:'Bookworm',condition:s=>(s.subjectStats?.reading?.correct||0)>=5},
+  {id:'t5',icon:'🧮',name:'Math Wizard',condition:s=>(s.subjectStats?.math?.correct||0)>=5},
+  {id:'t6',icon:'✏️',name:'Writer',condition:s=>(s.subjectStats?.writing?.correct||0)>=3},
+  {id:'t7',icon:'🔤',name:'Speller',condition:s=>(s.subjectStats?.spelling?.correct||0)>=3},
+  {id:'t8',icon:'💯',name:'100 XP Club',condition:s=>s.xp>=100},
+  {id:'t9',icon:'🌟',name:'7-Day Streak',condition:s=>s.streak>=7},
+  {id:'t10',icon:'🏆',name:'Champion',condition:s=>s.xp>=300}
+];
+
+// =================== AI PROMPTS ===================
+const BASE_PROMPTS = {
+  leira:{
+    math:`You are a friendly 4th grade FCPS Virginia SOL math tutor. Generate ONE multiple-choice question for a 4th grader on this unit: {UNIT}. Topics: place value 9 digits, addition/subtraction, multiplication, division with remainders, fractions, decimals, geometry (angles/lines), measurement, algebraic patterns. Return ONLY valid JSON: {"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"..."}`,
+    reading:`You are a friendly 4th grade FCPS Virginia SOL reading tutor. Generate ONE reading comprehension question for this unit: {UNIT}. Include a 3-4 sentence passage then a question about main idea, inference, text evidence, author's purpose, or vocabulary. Return ONLY valid JSON: {"passage":"...","question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"..."}`,
+    writing:`You are a friendly 4th grade FCPS Virginia SOL writing coach. Generate ONE question for this unit: {UNIT}. Either multiple-choice grammar (commas, quotation marks, subject-verb) OR short-answer writing prompt. Return ONLY valid JSON: {"type":"multiple_choice","question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"..."}`,
+    spelling:`You are a friendly 4th grade FCPS Virginia SOL spelling teacher. Generate ONE spelling/phonics question for this unit: {UNIT}. Focus: hard/soft c&g, r-controlled vowels, diphthongs /ou/ /oi/, prefixes trans-/pro-/sub-/super-, homophones, neg prefixes de-/un-/in-, Greek/Latin roots. Return ONLY valid JSON: {"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"..."}`
+  },
+  leiana:{
+    math:`You are a very friendly encouraging 1st grade FCPS Virginia SOL math tutor. Use very simple 6-year-old language. Generate ONE multiple-choice question for this unit: {UNIT}. Topics: add/subtract within 20, place value tens/ones, shapes, simple fractions halves, coins, time to the hour. Return ONLY valid JSON: {"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"...simple words"}`,
+    reading:`You are a very friendly 1st grade FCPS Virginia SOL reading tutor. Use simple language for a 6-year-old. Generate ONE reading question for this unit: {UNIT}. Include a 2-3 sentence passage with easy vocabulary, then a question about characters, setting, main idea, or sequence. Return ONLY valid JSON: {"passage":"...","question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"...simple"}`,
+    writing:`You are a very friendly 1st grade FCPS Virginia SOL writing teacher. Generate ONE simple question for this unit: {UNIT}. Capitalization, end punctuation (. ! ?), or simple sentence writing. Return ONLY valid JSON: {"type":"multiple_choice","question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"...simple for 1st grader"}`,
+    spelling:`You are a very friendly 1st grade FCPS Virginia SOL phonics teacher. Generate ONE phonics/spelling question for this unit: {UNIT}. Focus: short vowels CVC, consonant digraphs ch/sh/th/wh, long vowel final-e, vowel teams ai/oa/ee, sight words. Return ONLY valid JSON: {"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":"A","explanation":"...simple"}`
+  }
+};
+
+// =================== RENDER ===================
+function render() {
+  updateStreaks();
+  ['leira','leiana'].forEach(n=>{
+    renderTodayProgress(n);renderChallenges(n);renderSubjects(n);renderTrophies(n);
+    updateStreakDisplay(n);renderStars(n);
+  });
+  document.getElementById('header-streak-num').textContent = state[state.currentStudent].streak;
+}
+
+function updateStreaks() {
+  ['leira','leiana'].forEach(n=>{
+    const s = state[n];
+    if (s.lastActive !== today) {
+      const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+      const lastDate = s.lastActive ? new Date(s.lastActive) : null;
+      const diff = lastDate ? Math.floor((new Date(today)-lastDate)/86400000) : 999;
+      if(diff>1) s.streak=0;
+      s.todayDone=[];
+    }
+  });
+}
+
+function updateStreakDisplay(n){
+  document.getElementById(`${n}-streak-num`).textContent=state[n].streak;
+}
+
+function renderStars(n){
+  const s=state[n]; const el=document.getElementById(`${n}-stars`);
+  const stars=Math.min(5,Math.floor(s.xp/50));
+  el.innerHTML=Array.from({length:5},(_,i)=>`<span class="star ${i<stars?'earned':''}">⭐</span>`).join('');
+}
+
+function renderTodayProgress(n){
+  const el=document.getElementById(`${n}-today-subjects`); const s=state[n];
+  const subs=['math','reading','writing','spelling'];
+  const labels={math:'🔢 Math',reading:'📖 Reading',writing:'✍️ Writing',spelling:'🔤 Spelling'};
+  el.innerHTML=subs.map(sub=>{
+    const done=s.todayDone.includes(sub);
+    return `<div class="today-subject-chip ${done?'done':'pending'}" onclick="openSubject('${n}','${sub}','practice')">
+      ${done?'✅':'⭕'} ${labels[sub]}</div>`;
+  }).join('');
+}
+
+function renderChallenges(n){
+  const el=document.getElementById(`${n}-challenges`); const s=state[n];
+  el.innerHTML=challenges[n].map(c=>{
+    const done=s.trophies.includes('ch_'+c.id);
+    return `<div class="challenge-card ${n} ${done?'completed':''}" onclick="startChallenge('${n}','${c.id}')">
+      <div class="challenge-icon">${c.icon}</div>
+      <div class="challenge-title">${c.title}</div>
+      <div class="challenge-desc">${c.desc}</div>
+      <div class="challenge-reward ${n}">⭐ ${c.reward}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderSubjects(n){
+  const el=document.getElementById(`${n}-subjects`); const s=state[n];
+  el.innerHTML=Object.entries(curriculum[n]).map(([subKey,sub])=>{
+    const units=sub.units;
+    const totalDone=units.filter(u=>u.done).length+(s.unitProgress[subKey]||0);
+    const pct=Math.round((totalDone/units.length)*100);
+    const roadmapHTML=units.slice(0,4).map(u=>{
+      let dotClass='locked';
+      if(u.done) dotClass='done'; else if(u.current) dotClass='current';
+      const badge=u.done?`<span class="unit-badge" style="background:#dcfce7;color:#166534">Done</span>`
+        :u.current?`<span class="unit-badge" style="background:#fef3c7;color:#92400e">Now</span>`
+        :`<span class="unit-badge" style="background:#f3f4f6;color:#6b7280">${u.quarter}</span>`;
+      return `<div class="roadmap-unit"><div class="unit-dot ${dotClass}" style="${dotClass==='current'?`border-color:${sub.color}`:''}"></div>
+        <div class="unit-label">${u.name}</div>${badge}</div>`;
+    }).join('');
+    const stats=s.subjectStats?.[subKey]||{correct:0,wrong:0};
+    const total=stats.correct+stats.wrong;
+    const accPct=total>0?Math.round((stats.correct/total)*100):null;
+    return `<div class="subject-card" style="border-color:${sub.light}">
+      <div class="subject-header">
+        <div class="subject-icon-wrap" style="background:${sub.light}"><span>${sub.icon}</span></div>
+        <div class="subject-info">
+          <h3 style="color:${sub.color}">${sub.label}</h3>
+          <div class="grade-label">${sub.grade} · ${units.length} units${accPct!==null?' · '+accPct+'% acc':''}</div>
+        </div>
+      </div>
+      <div class="subject-progress">
+        <div class="progress-info"><span style="color:${sub.color}">Progress</span><span>${totalDone}/${units.length} units</span></div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%;background:${sub.color}"></div></div>
+      </div>
+      <div class="roadmap"><div class="roadmap-title">Curriculum Roadmap</div><div class="roadmap-track">${roadmapHTML}</div></div>
+      <div class="subject-btns">
+        <button class="start-btn" style="background:${sub.color}" onclick="openSubject('${n}','${subKey}','practice')">▶ Practice</button>
+        <button class="test-btn" style="color:${sub.color};border-color:${sub.color}" onclick="openSubject('${n}','${subKey}','test')">📝 Unit Test</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTrophies(n){
+  const el=document.getElementById(`${n}-trophies`); const s=state[n];
+  el.innerHTML=trophyDefs.map(t=>{
+    const earned=t.condition(s);
+    return `<div class="trophy-item ${earned?'earned':'locked'}" title="${t.name}">
+      <div class="trophy-icon">${t.icon}</div><div class="trophy-name">${t.name}</div></div>`;
+  }).join('');
+}
+
+// =================== STUDENT SWITCH ===================
+function switchStudent(n){
+  if(n==='teacher'){openTeacherPin();return;}
+  state.currentStudent=n;
+  document.querySelectorAll('[data-student]').forEach(el=>el.classList.toggle('active',el.dataset.student===n));
+  document.querySelectorAll('.student-tab').forEach(btn=>btn.classList.toggle('active',btn.classList.contains(n)));
+  document.getElementById('header-streak-num').textContent=state[n].streak;
+  saveState();
+}
+
+// =================== PIN ===================
+function openTeacherPin(){
+  document.getElementById('pin-overlay').classList.add('open');
+  ['pin0','pin1','pin2','pin3'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pin-error').textContent='';
+  document.getElementById('pin0').focus();
+}
+function closePinModal(){document.getElementById('pin-overlay').classList.remove('open');}
+function pinInput(idx){
+  const val=document.getElementById('pin'+idx).value;
+  if(val&&idx<3) document.getElementById('pin'+(idx+1)).focus();
+  if(idx===3){
+    const pin=['pin0','pin1','pin2','pin3'].map(id=>document.getElementById(id).value).join('');
+    if(pin===PIN){closePinModal();enterTeacherView();}
+    else{document.getElementById('pin-error').textContent='Wrong PIN. Try again!';['pin0','pin1','pin2','pin3'].forEach(id=>document.getElementById(id).value='');document.getElementById('pin0').focus();}
+  }
+}
+function pinKey(e,idx){if(e.key==='Backspace'&&!document.getElementById('pin'+idx).value&&idx>0)document.getElementById('pin'+(idx-1)).focus();}
+
+function enterTeacherView(){
+  state.currentStudent='teacher';
+  document.querySelectorAll('[data-student]').forEach(el=>el.classList.toggle('active',el.dataset.student==='teacher'));
+  document.querySelectorAll('.student-tab').forEach(btn=>btn.classList.toggle('active',btn.classList.contains('teacher')));
+  document.getElementById('header-streak-num').textContent='–';
+  teacherView('leira');
+}
+
+// =================== TEACHER DASHBOARD ===================
+function teacherView(studentName){
+  renderPinManager();
+  state.teacherViewStudent=studentName;
+  document.getElementById('teacher-toggle-leira').className='toggle-btn'+(studentName==='leira'?' active-leira':'');
+  document.getElementById('teacher-toggle-leiana').className='toggle-btn'+(studentName==='leiana'?' active-leiana':'');
+  renderTeacherMetrics(studentName);
+  renderTeacherAccuracy(studentName);
+  renderWrongLog(studentName);
+  renderFullLog(studentName);
+  renderHeatmap(studentName);
+}
+
+function renderTeacherMetrics(n){
+  const s=state[n]; const el=document.getElementById('teacher-metrics');
+  const total=Object.values(s.subjectStats||{}).reduce((a,v)=>({correct:a.correct+v.correct,wrong:a.wrong+v.wrong}),{correct:0,wrong:0});
+  const totalQ=total.correct+total.wrong;
+  const overallAcc=totalQ>0?Math.round((total.correct/totalQ)*100):0;
+  const color=n==='leira'?'#7c3aed':'#ec4899';
+  // find weakest subject
+  let weakest='—'; let lowestAcc=101;
+  Object.entries(s.subjectStats||{}).forEach(([sub,stats])=>{
+    const t=stats.correct+stats.wrong;
+    if(t>0){const a=Math.round((stats.correct/t)*100);if(a<lowestAcc){lowestAcc=a;weakest=sub.charAt(0).toUpperCase()+sub.slice(1)+' ('+a+'%)';}}
+  });
+  el.innerHTML=`
+    <div class="metric-card">
+      <div class="metric-val" style="color:${color}">${totalQ}</div>
+      <div class="metric-label">Total Questions</div>
+      <div class="metric-sub">✅ ${total.correct} correct · ❌ ${total.wrong} wrong</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:${overallAcc>=80?'#10b981':overallAcc>=60?'#f59e0b':'#dc2626'}">${overallAcc}%</div>
+      <div class="metric-label">Overall Accuracy</div>
+      <div class="metric-sub">Across all subjects</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:${color}">${s.streak}</div>
+      <div class="metric-label">Current Streak 🔥</div>
+      <div class="metric-sub">Needs attention: <strong>${weakest}</strong></div>
+    </div>`;
+}
+
+function renderTeacherAccuracy(n){
+  const s=state[n]; const el=document.getElementById('teacher-accuracy-table');
+  const subjectList=['math','reading','writing','spelling'];
+  const subjectIcons={math:'🔢',reading:'📖',writing:'✍️',spelling:'🔤'};
+  const rows=subjectList.map(sub=>{
+    const stats=s.subjectStats?.[sub]||{correct:0,wrong:0};
+    const total=stats.correct+stats.wrong;
+    const acc=total>0?Math.round((stats.correct/total)*100):null;
+    const pillClass=acc===null?'none':acc>=80?'high':acc>=60?'mid':'low';
+    const pillText=acc===null?'No data':acc+'%';
+    // unit breakdown
+    const units=curriculum[n][sub].units;
+    const unitRows=units.map(u=>{
+      const us=s.unitStats?.[u.id]||{correct:0,wrong:0};
+      const ut=us.correct+us.wrong;
+      const ua=ut>0?Math.round((us.correct/ut)*100):null;
+      const uc=ua===null?'none':ua>=80?'high':ua>=60?'mid':'low';
+      return `<tr style="background:#f9fafb">
+        <td style="padding-left:28px;color:var(--muted);font-size:.8rem">↳ ${u.name}</td>
+        <td><span class="acc-pill ${uc}">${ua===null?'—':ua+'%'}</span></td>
+        <td style="color:var(--muted);font-size:.8rem">${us.correct} / ${ut}</td>
+        <td></td></tr>`;
+    }).join('');
+    return `<tr style="cursor:pointer" onclick="this.nextElementSibling?.classList.toggle('unit-rows-open')">
+      <td><strong>${subjectIcons[sub]} ${sub.charAt(0).toUpperCase()+sub.slice(1)}</strong></td>
+      <td><span class="acc-pill ${pillClass}">${pillText}</span></td>
+      <td style="color:var(--muted);font-size:.8rem">${stats.correct} / ${total}</td>
+      <td style="font-size:.75rem;color:var(--muted)">▾ units</td></tr>
+    <tbody class="unit-rows-hidden" style="display:none">${unitRows}</tbody>`;
+  }).join('');
+  el.innerHTML=`<thead><tr>
+    <th>Subject</th><th>Accuracy</th><th>Correct / Total</th><th></th>
+  </tr></thead><tbody>${rows}</tbody>`;
+  // toggle units
+  el.querySelectorAll('tr[style]').forEach(row=>{
+    row.addEventListener('click',()=>{
+      const next=row.nextElementSibling;
+      if(next&&next.tagName==='TBODY') next.style.display=next.style.display==='none'?'':'none';
+    });
+  });
+}
+
+function renderWrongLog(n){
+  const s=state[n]; const el=document.getElementById('teacher-wrong-list');
+  const wrong=(s.questionLog||[]).filter(q=>!q.correct).slice(-20).reverse();
+  if(!wrong.length){el.innerHTML=`<div style="color:var(--muted);font-weight:600;font-size:.9rem;padding:10px 0">🎉 No wrong answers yet! Amazing work!</div>`;return;}
+  const subColors={math:'#7c3aed',reading:'#0891b2',writing:'#16a34a',spelling:'#dc2626'};
+  el.innerHTML=wrong.map(q=>`<div class="wrong-q-card">
+    <div class="wq-subject" style="color:${subColors[q.subject]||'#666'}">${q.subject.toUpperCase()} · ${q.unitId||''}</div>
+    <div class="wq-question">${q.question?.substring(0,120)||''}...</div>
+    ${q.chosen?`<div class="wq-given">❌ They chose: ${q.chosen}</div>`:''}
+    ${q.rightAnswer?`<div class="wq-correct">✅ Correct answer: ${q.rightAnswer}</div>`:''}
+    <div style="font-size:.73rem;color:var(--muted);margin-top:4px">${new Date(q.ts).toLocaleString()}</div>
+  </div>`).join('');
+}
+
+function renderFullLog(n){
+  const s=state[n]; const el=document.getElementById('teacher-log-table');
+  const log=(s.questionLog||[]).slice(-50).reverse();
+  if(!log.length){el.innerHTML=`<tr><td colspan="5" style="padding:14px;color:var(--muted);font-weight:600">No questions answered yet.</td></tr>`;return;}
+  const subColors={math:'#7c3aed',reading:'#0891b2',writing:'#16a34a',spelling:'#dc2626'};
+  el.innerHTML=`<thead><tr>
+    <th>Result</th><th>Subject</th><th>Unit</th><th>Question</th><th>When</th>
+  </tr></thead><tbody>`+log.map(q=>`<tr>
+    <td><span class="q-result-dot ${q.correct?'correct':'wrong'}"></span>${q.correct?'✅ Correct':'❌ Wrong'}</td>
+    <td><span class="q-subject-badge" style="background:${subColors[q.subject]+'22'};color:${subColors[q.subject]}">${q.subject}</span></td>
+    <td style="font-size:.78rem;color:var(--muted)">${q.unitId||'—'}</td>
+    <td><div class="q-question-text" title="${(q.question||'').replace(/"/g,"'")}">${q.question?.substring(0,60)||''}…</div></td>
+    <td style="font-size:.76rem;color:var(--muted);white-space:nowrap">${new Date(q.ts).toLocaleString()}</td>
+  </tr>`).join('')+'</tbody>';
+}
+
+function renderHeatmap(n){
+  const s=state[n]; const el=document.getElementById('teacher-heatmap');
+  const days=28;
+  let html='';
+  for(let i=days-1;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const key=d.toDateString();
+    const count=s.activityDays?.[key]||0;
+    const cls=count===0?'':count<=2?'d1':count<=5?'d2':count<=10?'d3':'d5';
+    html+=`<div class="heatmap-day ${cls}" title="${key}: ${count} questions"></div>`;
+  }
+  el.innerHTML=html;
+}
+
+function clearWrongLog(){
+  const n=state.teacherViewStudent;
+  state[n].questionLog=(state[n].questionLog||[]).filter(q=>q.correct);
+  saveState(); renderWrongLog(n);
+}
+function clearFullLog(){
+  const n=state.teacherViewStudent;
+  state[n].questionLog=[];
+  saveState(); renderFullLog(n); renderWrongLog(n);
+}
+function clearAllData(){
+  if(!confirm('Reset ALL data for both students? This cannot be undone.'))return;
+  state.leira=defaultStudent();state.leiana=defaultStudent();
+  saveState();render();teacherView(state.teacherViewStudent);
+}
+
+// =================== MODAL / SESSION ===================
+let session={student:null,subject:null,unitId:null,unitName:null,mode:'practice',
+  qCount:0,correct:0,total:5,answered:false,currentQ:null};
+
+function openSubject(student,subject,mode){
+  const sub=curriculum[student][subject];
+  session={student,subject,unitId:null,unitName:null,mode,qCount:0,correct:0,total:5,answered:false,currentQ:null};
+
+  document.getElementById('modal-icon').textContent=sub.icon;
+  document.getElementById('modal-title').textContent=`${sub.label} ${mode==='test'?'Unit Test':'Practice'}`;
+  document.getElementById('modal-subtitle').textContent=`${sub.grade} · FCPS Virginia SOL`;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('feedback-box').style.display='none';
+  document.getElementById('answer-area').innerHTML='';
+  document.getElementById('modal-actions').innerHTML='';
+
+  if(mode==='test'){
+    showUnitSelector(student,subject,sub);
+  } else {
+    document.getElementById('modal-unit-selector').style.display='none';
+    document.getElementById('modal-xp-bar').style.display='flex';
+    document.getElementById('test-progress-area').style.display='none';
+    session.unitId='all'; session.unitName='All Units';
+    updateXPBar(student);
+    loadQuestion();
+  }
+}
+
+function showUnitSelector(student,subject,sub){
+  document.getElementById('modal-xp-bar').style.display='none';
+  document.getElementById('test-progress-area').style.display='none';
+  document.getElementById('question-area').innerHTML='<div style="color:var(--muted);font-style:italic;font-size:.9rem">Select a unit to begin the test.</div>';
+  document.getElementById('answer-area').innerHTML='';
+  document.getElementById('modal-actions').innerHTML='';
+  const s=state[student];
+  const units=curriculum[student][subject].units;
+  const el=document.getElementById('modal-unit-selector');
+  el.style.display='block';
+  el.innerHTML=`<div style="font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:12px;color:${sub.color}">Choose a unit to test:</div>
+    <div class="test-unit-list">`+units.map(u=>{
+      const us=s.unitStats?.[u.id]||{correct:0,wrong:0};
+      const ut=us.correct+us.wrong;
+      const ua=ut>0?Math.round((us.correct/ut)*100):null;
+      const sc=ua===null?'none':ua>=80?'good':ua>=60?'ok':'poor';
+      const scText=ua===null?'Not tested':ua+'%';
+      const fillColor=ua===null?'#e5e7eb':ua>=80?'#10b981':ua>=60?'#f59e0b':'#ef4444';
+      return `<div class="test-unit-row" onclick="startUnitTest('${student}','${subject}','${u.id}','${u.name.replace(/'/g,"\\'")}')">
+        <div style="font-size:1.1rem">${u.done?'✅':u.current?'🟡':'⚪'}</div>
+        <div class="unit-name">${u.name} <span style="font-size:.72rem;color:var(--muted);font-weight:700">${u.quarter}</span></div>
+        <div class="test-progress-bar"><div class="test-progress-fill" style="width:${ua||0}%;background:${fillColor}"></div></div>
+        <span class="test-unit-score ${sc}">${scText}</span>
+      </div>`;
+    }).join('')+'</div>';
+}
+
+function startUnitTest(student,subject,unitId,unitName){
+  session={student,subject,unitId,unitName,mode:'test',qCount:0,correct:0,total:5,answered:false,currentQ:null};
+  document.getElementById('modal-unit-selector').style.display='none';
+  document.getElementById('modal-xp-bar').style.display='none';
+  document.getElementById('test-progress-area').style.display='block';
+  const sub=curriculum[student][subject];
+  document.getElementById('test-progress-bar').style.background=sub.color;
+  updateTestProgress();
+  loadQuestion();
+}
+
+function updateTestProgress(){
+  document.getElementById('test-q-counter').textContent=`Question ${session.qCount+1} of ${session.total}`;
+  document.getElementById('test-score-running').textContent=`✅ ${session.correct} correct`;
+  document.getElementById('test-progress-bar').style.width=`${(session.qCount/session.total)*100}%`;
+}
+
+function updateXPBar(student){
+  const s=state[student]; const sub=curriculum[student][session.subject];
+  const pct=Math.min(100,s.xp%100);
+  document.getElementById('modal-xp-fill').style.background=sub.color;
+  document.getElementById('modal-xp-fill').style.width=pct+'%';
+  document.getElementById('modal-xp-count').textContent=s.xp+' XP';
+}
+
+// =================== QUESTION LOAD ===================
+async function loadQuestion(){
+  const{student,subject,unitId,unitName,mode}=session;
+  const sub=curriculum[student][subject];
+  const qArea=document.getElementById('question-area');
+  const aArea=document.getElementById('answer-area');
+  const fbBox=document.getElementById('feedback-box');
+  const actions=document.getElementById('modal-actions');
+
+  qArea.innerHTML=`<div class="ai-loading"><span>Getting your question ready</span><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+  aArea.innerHTML=''; fbBox.style.display='none'; fbBox.className='feedback-box'; actions.innerHTML='';
+  session.answered=false;
+
+  const basePrompt=BASE_PROMPTS[student][subject];
+  const unitLabel=unitName||'the current curriculum unit';
+  const prompt=basePrompt.replace('{UNIT}',unitLabel);
+
+  try{
+    const res=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        max_tokens:1000,
+        system:prompt,
+        messages:[{role:'user',content:'Generate a question. Return ONLY valid JSON, no markdown.'}]
+      })
+    });
+    const data=await res.json();
+    let text=data.content?.map(b=>b.text||'').join('')||'';
+    text=text.replace(/```json|```/g,'').trim();
+    const q=JSON.parse(text);
+    session.currentQ=q;
+    renderQuestion(q,sub);
+  }catch(err){
+    qArea.innerHTML=`<div class="question-text">⚠️ Could not load question. Please try again!</div>`;
+    actions.innerHTML=`<button class="btn btn-secondary" onclick="loadQuestion()">🔄 Try Again</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>`;
+  }
+}
+
+function renderQuestion(q,sub){
+  const qArea=document.getElementById('question-area');
+  const aArea=document.getElementById('answer-area');
+  const actions=document.getElementById('modal-actions');
+  const{student,subject,mode,qCount}=session;
+
+  let html='';
+  if(q.passage) html+=`<div style="background:#f0f9ff;border-left:4px solid ${sub.color};padding:11px 13px;border-radius:10px;margin-bottom:12px;font-size:.88rem;line-height:1.7;font-style:italic">${q.passage}</div>`;
+  html+=`<div class="question-num">${mode==='test'?`Test Q${qCount+1}`:'Practice'}</div><div class="question-text">${q.question}</div>`;
+  qArea.innerHTML=html;
+
+  if(q.type==='short_answer'){
+    aArea.innerHTML=`<textarea class="text-answer" id="text-ans" placeholder="Write your answer here..." rows="3"></textarea>`;
+    actions.innerHTML=`<button class="btn btn-primary" style="background:${sub.color}" onclick="submitShortAnswer()">Submit ✓</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>`;
+  } else {
+    const opts=q.options||[];
+    aArea.innerHTML=`<div class="answer-options">`+opts.map((opt,i)=>`<button class="option-btn" id="opt-${i}" onclick="checkAnswer(${i})">${opt}</button>`).join('')+`</div>`;
+    actions.innerHTML=`<button class="btn btn-secondary" onclick="closeModal()">Close</button>`;
+  }
+}
+
+function checkAnswer(idx){
+  if(session.answered) return;
+  session.answered=true;
+  const q=session.currentQ;
+  const{student,subject,unitId,mode}=session;
+  const sub=curriculum[student][subject];
+  const opts=document.querySelectorAll('.option-btn');
+  const correctLetter=(q.answer||'A').charAt(0);
+  const correctIdx=['A','B','C','D'].indexOf(correctLetter);
+  opts.forEach((btn,i)=>{btn.disabled=true;if(i===correctIdx)btn.classList.add('correct');else if(i===idx)btn.classList.add('wrong');});
+  const correct=idx===correctIdx;
+  const chosenText=opts[idx]?.textContent||'';
+  const rightText=opts[correctIdx]?.textContent||correctLetter;
+  recordAnswer(correct,q.question,chosenText,rightText,unitId||'all',subject,student);
+  showFeedback(correct,q.explanation,sub);
+}
+
+function submitShortAnswer(){
+  if(session.answered) return;
+  session.answered=true;
+  const{student,subject,unitId}=session;
+  const q=session.currentQ;
+  const sub=curriculum[student][subject];
+  document.getElementById('text-ans').disabled=true;
+  const fbBox=document.getElementById('feedback-box');
+  fbBox.className='feedback-box correct-fb';
+  fbBox.innerHTML=`✅ Great effort!\n\nSample answer: "${q.sampleAnswer}"\n\n💡 ${q.explanation}`;
+  fbBox.style.display='block';
+  recordAnswer(true,q.question,'(written)',q.sampleAnswer||'',unitId||'all',subject,student);
+  showNextOrFinish(sub);
+}
+
+function showFeedback(correct,explanation,sub){
+  const fbBox=document.getElementById('feedback-box');
+  if(correct){fbBox.className='feedback-box correct-fb';fbBox.innerHTML=`🎉 Excellent! That's correct!\n\n💡 ${explanation}`;}
+  else{fbBox.className='feedback-box wrong-fb';fbBox.innerHTML=`Not quite! The right answer is ${session.currentQ.answer}.\n\n💡 ${explanation}`;}
+  fbBox.style.display='block';
+  showNextOrFinish(sub);
+}
+
+function showNextOrFinish(sub){
+  const actions=document.getElementById('modal-actions');
+  if(session.mode==='test'){
+    session.qCount++;
+    if(session.qCount>=session.total){
+      // Show final score
+      setTimeout(()=>showTestResults(sub),400);
+      return;
+    }
+    updateTestProgress();
+    actions.innerHTML=`<button class="btn btn-primary" style="background:${sub.color}" onclick="loadQuestion()">Next Question ➜</button>
+      <button class="btn btn-secondary" onclick="closeModal()">End Test</button>`;
+  } else {
+    awardXP(session.correct?25:5,session.student,session.subject,sub);
+    actions.innerHTML=`<button class="btn btn-primary" style="background:${sub.color}" onclick="nextPracticeQ()">Next Question ➜</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Done for now</button>`;
+  }
+}
+
+function nextPracticeQ(){
+  session.qCount++;
+  document.getElementById('feedback-box').style.display='none';
+  loadQuestion();
+}
+
+function showTestResults(sub){
+  const{student,subject,correct,total,unitName}=session;
+  const pct=Math.round((correct/total)*100);
+  const grade=pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'F';
+  const gradeColor=pct>=80?'#10b981':pct>=60?'#f59e0b':'#ef4444';
+  document.getElementById('test-progress-area').style.display='none';
+  document.getElementById('question-area').innerHTML=`
+    <div class="test-score-panel">
+      <div style="font-size:.78rem;opacity:.7;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Unit Test Complete!</div>
+      <div class="test-score-big" style="color:${gradeColor}">${pct}%</div>
+      <div class="test-score-label">Grade: ${grade} · ${unitName}</div>
+      <div class="test-score-breakdown">
+        <div class="score-stat"><div class="val">✅${correct}</div><div class="lbl">Correct</div></div>
+        <div class="score-stat"><div class="val">❌${total-correct}</div><div class="lbl">Wrong</div></div>
+        <div class="score-stat"><div class="val">${total}</div><div class="lbl">Total</div></div>
+      </div>
+    </div>`;
+  document.getElementById('answer-area').innerHTML='';
+  document.getElementById('feedback-box').style.display='none';
+  document.getElementById('modal-actions').innerHTML=`
+    <button class="btn btn-primary" style="background:${sub.color}" onclick="openSubject('${student}','${subject}','test')">Take Another Test</button>
+    <button class="btn btn-secondary" onclick="closeModal()">Done</button>`;
+  // Award XP for completing a test
+  awardXP(pct>=80?50:pct>=60?25:10,student,subject,sub);
+}
+
+// =================== RECORD ===================
+function recordAnswer(correct,question,chosen,rightAnswer,unitId,subject,student){
+  const s=state[student];
+  // subject stats
+  if(!s.subjectStats) s.subjectStats={math:{correct:0,wrong:0},reading:{correct:0,wrong:0},writing:{correct:0,wrong:0},spelling:{correct:0,wrong:0}};
+  if(!s.subjectStats[subject]) s.subjectStats[subject]={correct:0,wrong:0};
+  if(correct) s.subjectStats[subject].correct++; else s.subjectStats[subject].wrong++;
+  // unit stats
+  if(!s.unitStats) s.unitStats={};
+  if(!s.unitStats[unitId]) s.unitStats[unitId]={correct:0,wrong:0};
+  if(correct) s.unitStats[unitId].correct++; else s.unitStats[unitId].wrong++;
+  // question log
+  if(!s.questionLog) s.questionLog=[];
+  s.questionLog.push({ts:Date.now(),student,subject,unitId,question:question?.substring(0,200)||'',correct,chosen:chosen?.substring(0,80)||'',rightAnswer:rightAnswer?.substring(0,80)||''});
+  if(s.questionLog.length>200) s.questionLog=s.questionLog.slice(-200);
+  // session correct count
+  if(correct) session.correct++;
+  // activity heatmap
+  if(!s.activityDays) s.activityDays={};
+  s.activityDays[today]=(s.activityDays[today]||0)+1;
+  saveState();
+}
+
+function awardXP(amount,student,subject,sub){
+  const s=state[student];
+  s.xp+=amount;
+  if(!s.todayDone.includes(subject)) s.todayDone.push(subject);
+  s.lastActive=today;
+  if(s.streak===0) s.streak=1;
+  updateXPBar(student);
+  document.getElementById(`${student}-streak-num`).textContent=s.streak;
+  if(state.currentStudent===student) document.getElementById('header-streak-num').textContent=s.streak;
+  saveState();
+  renderTodayProgress(student);renderTrophies(student);renderStars(student);
+  if(s.xp%50===0){document.getElementById(`${student}-streak-num`).classList.add('celebrate');setTimeout(()=>document.getElementById(`${student}-streak-num`).classList.remove('celebrate'),700);}
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function closeModalOnBg(e){if(e.target===document.getElementById('modal'))closeModal();}
+function startChallenge(student,id){const c=challenges[student].find(x=>x.id===id);if(c)openSubject(student,c.subject,'practice');}
+
+
+// =================== SITE LOCK ===================
+// PINs stored in state so parent can change them from the dashboard
+// Defaults: leira=1111, leiana=2222, parent=1234
+const DEFAULT_PINS = { leira: '1111', leiana: '2222', parent: '1234' };
+
+let lockState = { user: null, entered: '' };
+
+function getPins() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('learning_hq_pins') || '{}');
+    return { ...DEFAULT_PINS, ...saved };
+  } catch(e) { return { ...DEFAULT_PINS }; }
+}
+
+
+function renderPinManager() {
+  const pins = getPins();
+  const el = document.getElementById('pin-manager');
+  if (!el) return;
+  const users = [
+    { key:'leira',  label:'Leira',          color:'var(--leira-primary)',  bg:'var(--leira-light)',  icon:'👩‍🎓' },
+    { key:'leiana', label:'Leiana',          color:'var(--leiana-primary)', bg:'var(--leiana-light)', icon:'🌸' },
+    { key:'parent', label:'Parent/Teacher',  color:'var(--teacher-primary)',bg:'var(--teacher-light)',icon:'👩‍🏫' }
+  ];
+  el.innerHTML = users.map(u => `
+    <div style="background:${u.bg};border-radius:14px;padding:16px">
+      <div style="font-family:'Fredoka One',cursive;font-size:.95rem;color:${u.color};margin-bottom:10px">${u.icon} ${u.label}</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="password" id="new-pin-${u.key}" maxlength="4" placeholder="New PIN"
+          style="flex:1;padding:8px 10px;border-radius:9px;border:2px solid #e5e7eb;font-family:'Fredoka One',cursive;
+            font-size:1.1rem;text-align:center;outline:none;"
+          oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,4)"
+          onfocus="this.style.borderColor='${u.color}'" onblur="this.style.borderColor='#e5e7eb'">
+        <button onclick="savePin('${u.key}')"
+          style="padding:8px 14px;border-radius:9px;border:none;background:${u.color};color:#fff;
+            font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer">Save</button>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);font-weight:700;margin-top:6px">Enter a new 4-digit PIN above to change it</div>
+    </div>
+  `).join('');
+}
+
+function savePin(user) {
+  const input = document.getElementById('new-pin-' + user);
+  const val = input.value.trim();
+  if (val.length !== 4 || !/^[0-9]{4}$/.test(val)) {
+    input.style.borderColor = '#dc2626';
+    setTimeout(() => { input.style.borderColor = '#e5e7eb'; }, 1200);
+    return;
+  }
+  const pins = getPins();
+  pins[user] = val;
+  localStorage.setItem('learning_hq_pins', JSON.stringify(pins));
+  input.value = '';
+  input.placeholder = 'Saved! ✓';
+  setTimeout(() => { input.placeholder = 'New PIN'; }, 2000);
+}
+
+function initLockScreen() {
+  // Spawn twinkling stars
+  const starEl = document.getElementById('lock-stars');
+  const emojis = ['⭐','🌟','✨','💫','🌙'];
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('span');
+    s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    s.style.cssText = `position:absolute;left:${Math.random()*100}%;top:${Math.random()*100}%;
+      animation-delay:${Math.random()*3}s;animation-duration:${2.5+Math.random()*2}s;`;
+    s.className = 'lock-star';
+    starEl.appendChild(s);
+  }
+}
+
+function lockSelectUser(user) {
+  lockState.user = user;
+  lockState.entered = '';
+  updateLockDots();
+  document.getElementById('lock-error').textContent = '';
+
+  const cfg = {
+    leira:  { avatar: '👩‍🎓', name: 'Leira',           hint: 'Enter your 4-digit PIN', dotColor: 'var(--leira-primary)' },
+    leiana: { avatar: '🌸',   name: 'Leiana',          hint: 'Enter your 4-digit PIN', dotColor: 'var(--leiana-primary)' },
+    parent: { avatar: '👩‍🏫', name: 'Parent / Teacher', hint: 'Enter your 4-digit PIN', dotColor: 'var(--teacher-primary)' }
+  }[user];
+
+  document.getElementById('lock-pin-avatar').textContent = cfg.avatar;
+  document.getElementById('lock-pin-name').textContent = cfg.name;
+  document.getElementById('lock-pin-hint').textContent = cfg.hint;
+  // Color the dots
+  document.querySelectorAll('.lock-dot').forEach(d => d.style.borderColor = cfg.dotColor);
+
+  document.getElementById('lock-who').style.display = 'none';
+  document.getElementById('lock-pin').classList.add('visible');
+}
+
+function lockBack() {
+  lockState.entered = '';
+  lockState.user = null;
+  document.getElementById('lock-who').style.display = '';
+  document.getElementById('lock-pin').classList.remove('visible');
+  document.getElementById('lock-error').textContent = '';
+  updateLockDots();
+}
+
+function lockKey(digit) {
+  if (lockState.entered.length >= 4) return;
+  lockState.entered += digit;
+  updateLockDots();
+  if (lockState.entered.length === 4) {
+    setTimeout(checkLockPin, 180); // slight delay so last dot animates
+  }
+}
+
+function lockDel() {
+  lockState.entered = lockState.entered.slice(0, -1);
+  updateLockDots();
+  document.getElementById('lock-error').textContent = '';
+}
+
+function updateLockDots() {
+  const user = lockState.user;
+  const color = !user ? '#d1d5db'
+    : user === 'leira' ? 'var(--leira-primary)'
+    : user === 'leiana' ? 'var(--leiana-primary)'
+    : 'var(--teacher-primary)';
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('ld' + i);
+    const filled = i < lockState.entered.length;
+    dot.classList.toggle('filled', filled);
+    dot.style.background = filled ? color : 'transparent';
+    dot.style.borderColor = filled ? color : '#d1d5db';
+  }
+}
+
+function checkLockPin() {
+  const pins = getPins();
+  const correct = pins[lockState.user];
+  if (lockState.entered === correct) {
+    unlockAs(lockState.user);
+  } else {
+    // Wrong — shake and clear
+    document.getElementById('lock-dots').classList.add('lock-shake');
+    document.getElementById('lock-error').textContent = 'Wrong PIN — try again!';
+    setTimeout(() => {
+      document.getElementById('lock-dots').classList.remove('lock-shake');
+      lockState.entered = '';
+      updateLockDots();
+    }, 400);
+  }
+}
+
+function unlockAs(user) {
+  const lock = document.getElementById('site-lock');
+  lock.classList.add('fade-out');
+  setTimeout(() => lock.classList.add('hidden'), 420);
+  if (user === 'parent') {
+    enterTeacherView();
+  } else {
+    render();
+    switchStudent(user);
+  }
+}
+
+// keyboard support on lock screen
+document.addEventListener('keydown', e => {
+  if (document.getElementById('site-lock').classList.contains('hidden')) return;
+  if (!lockState.user) return;
+  if (e.key >= '0' && e.key <= '9') lockKey(e.key);
+  if (e.key === 'Backspace') lockDel();
+});
+
+// =================== INIT ===================
+initLockScreen();
+
+</script>
+</body>
+</html>
