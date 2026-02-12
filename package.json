@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Leira & Leiana's Learning HQ - FCPS Study App",
   "engines": {
-    "node": "24.x"
+    "node": "20.x"
   }
 }
